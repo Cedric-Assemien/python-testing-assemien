@@ -1,36 +1,167 @@
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summary | GUDLFT Registration</title>
-</head>
-<body>
-        <h2>Welcome, {{club['email']}} </h2><a href="{{url_for('logout')}}">Logout</a>
 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Summary | GUDLFT Registration</title>
+   
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href=" {{ url_for('static',filename='assets/css/fontawesome.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/templatemo-woox-travel.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/owl.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/animate.css')}}">
+    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+<!--
+
+TemplateMo 580 Woox Travel
+
+https://templatemo.com/tm-580-woox-travel
+
+-->
+  </head>
+
+<body>
+      
     {% with messages = get_flashed_messages()%}
     {% if messages %}
-        <ul>
-       {% for message in messages %}
-            <li>{{message}}</li>
-        {% endfor %}
-       </ul>
-    {% endif%}
-    Points available: {{club['points']}}
-    <h3>Competitions:</h3>
     <ul>
-        {% for comp in competitions%}
-        <li>
-            {{comp['name']}}<br />
-            Date: {{comp['date']}}</br>
-            Number of Places: {{comp['numberOfPlaces']}}
-            {%if comp['numberOfPlaces']|int >0%}
-            <a href="{{ url_for('book',competition=comp['name'],club=club['name']) }}">Book Places</a>
-            {%endif%}
-        </li>
-        <hr />
-        {% endfor %}
-    </ul>
-    {%endwith%}
+        {% for message in messages %}
+             <li>{{message}}</li>
+         {% endfor %}
+        </ul>
+     {% endif%}
+     {%endwith%}
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
 
-</body>
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <h4> GUDLFT Registration</h4>
+                   
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <h5>Bienvenue, {{club['email']}} </h5>
+                        <li><a href="{{url_for('logout')}}">Se deconnecter</a></li>
+                        
+                      
+                    </ul>   
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="second-page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>Bienvenue, {{club['email']}}</h2>
+          <h4>GUDLFT Registration</h4>
+          <h4>Points disponible: {{club['points']}} </h4>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="more-info reservation-info">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-sm-6">
+            <div class="info-item">
+                <h2>{% with messages = get_flashed_messages()%}
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                             <li>{{message}}</li>
+                         {% endfor %}
+                        </ul>
+                     {% endif%} 
+                     {%endwith%}
+                    </h2>
+               
+            </div>
+          </div>
+
+        <div class="col-lg-4 col-sm-6">
+          <div class="info-item">
+            <h3>Competitions:</h3>
+            <ul>
+                {% for comp in competitions%}
+                <li>
+                    <h9>{{comp['name']}}<br /> </h9>
+                    <h9> Date: {{comp['date']}}<br /> </h9>
+                    <h9> Nombre de place: {{comp['numberOfPlaces']}} </h9>
+                    {%if comp['numberOfPlaces']|int >0%}
+                    <a href="{{ url_for('book',competition=comp['name'],club=club['name']) }}">Reservez place</a>
+                    {%endif%}
+                </li>
+                <hr />
+                {% endfor %}
+            </ul>
+          
+          </div>
+        </div> 
+         
+        
+          
+        
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+  <script src="{{ url_for('static',filename='assets/js/isotope.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='assets/js/owl-carousel.js')}}"></script>
+  <script src="{{ url_for('static',filename='assets/js/wow.js')}}"></script>
+  <script src="{{ url_for('static',filename='assets/js/tabs.js')}}"></script>
+  <script src="{{ url_for('static',filename='assets/js/popup.js')}}"></script>
+  <script src="{{ url_for('static',filename='assets/js/custom.js')}}"></script>
+
+  <script>
+    $(".option").click(function(){
+      $(".option").removeClass("active");
+      $(this).addClass("active"); 
+    });
+  </script>
+
+  </body>
+
 </html>
