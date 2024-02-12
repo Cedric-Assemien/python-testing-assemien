@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Design by foolishdeveloper.com -->
+ 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUDLFT Registration</title>
  
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+   
     <!--Stylesheet-->
     <style media="screen">
       *,
@@ -139,22 +140,50 @@ button{
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
+
+    
    <!-- <h1>Bienvenue dans le portal d'enregistrement</h1>
     Please enter your secretary email to continue: -->
+  
     <form action="showSummary" method="post">
-        <h3>Points disponible des équipes</h3>
+        <h2>Points disponible des équipes</h2>
         <span></span>
         <span></span>
         <span></span>
-        <h4>Simply Lift = 13 points</h4>
-        <h4>Iron Temple = 4 points</h4>
-        <h4>She Lifts = 12 points</h4>
+        <ul>
+            {% for comp in competitions %}
+            <li>
+                <h9>{{comp['name']}}<br /> </h9>
+                <h9> Date: {{comp['date']}}<br /> </h9>
+                <h9> Nombre de place: {{comp['numberOfPlaces']}} </h9>
+            </li>
+             
+            <hr />
+            {% endfor %}
+        </ul>  
+        
+       <h4>Simply Lift = 13 points</h4>
+       <h4>Iron Temple = 4 points</h4>
+       <h4>She Lifts = 12 points</h4>
+       
         
         <label for="email">Entrez votre email:</label>
         <input type="email" name="email" id=""required/>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
         <button type="submit">Entrer</button>
+        
     </form>
+    
 
+    
 
     </body>
     </html>

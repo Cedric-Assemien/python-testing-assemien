@@ -1,5 +1,7 @@
+import datetime
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
+reservations =[]
 
 #Chargement des clubs
 def loadClubs():
@@ -9,9 +11,11 @@ def loadClubs():
 
 #Chargement des competitions
 def loadCompetitions():
+    current_year = datetime.datetime.now().year
     with open('competitions.json') as comps:
-         listOfCompetitions = json.load(comps)['competitions']
-         return listOfCompetitions
+        competitions = json.load(comps)['competitions']
+        filtered_competitions = [comp for comp in competitions if int(comp['date'][:4]) >= 2024]
+        return filtered_competitions
 
 
 app = Flask(__name__)
@@ -22,20 +26,20 @@ clubs = loadClubs()
 
 @app.route('/',)
 def index():
-    return render_template('index.html')
+    competition = [c['name'] for c in competitions]
+     
+    return render_template('index.html', competitions=competition)
     
 
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
-    entered_email = request.form['email']
+    email = request.form['email']
+    club = next((club for club in clubs if club['email'] == email), None)
     
-    if any(club['email'] == entered_email for club in clubs):
-        # Si oui, récupère le club correspondant
-        club = next(club for club in clubs if club['email'] == entered_email)
+    if club:
         return render_template('welcome.html', club=club, competitions=competitions)
-    
     else:
-       
+        flash('Adresse e-mail invalide. Veuillez entrer une adresse e-mail valide.', 'error')
         return redirect(url_for('index'))
 
 
@@ -55,13 +59,25 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     placesRequired = int(request.form['places'])
-    
-    # Vérifiez si le nombre de places disponibles est suffisant
-    if int(competition['numberOfPlaces']) < placesRequired :
+   
+    if int(competition['numberOfPlaces']) < placesRequired  :
         flash('Désolé, il n\'y a pas assez de places disponibles.')
         return render_template('welcome.html', club=club, competitions=competitions)
+    
+    elif int(club ['points']) < placesRequired  :
+        flash("Désolé, vous n'avez pas assez de points.")
+        return render_template('welcome.html', club=club, competitions=competitions)
+    
     elif placesRequired > 12:
         flash('Désolé, vous ne pouvez pas réserver plus de 12 places.')
+        return render_template('welcome.html', club=club, competitions=competitions)
+    
+    elif placesRequired == 0 :
+        flash('Désolé, vous pouvez réservez minimum 1 place. ')
+        return render_template('welcome.html', club=club, competitions=competitions)
+    
+    elif placesRequired < 0 :
+        flash('Désolé, pas de nombre négatif accepté !!!')
         return render_template('welcome.html', club=club, competitions=competitions)
     
     club ['points'] = int (club ['points']) - placesRequired

@@ -33,6 +33,14 @@
       color: #fff;
       text-align: center;
     }
+
+    .login-box h3 {
+      margin: 0 0 30px;
+      padding: 0;
+      color: #fff;
+      text-align: center;
+    }
+    
     
     .login-box .user-box {
       position: relative;
@@ -193,12 +201,13 @@
     <h2>{{competition['name']}}</h2>
     <h2>Combien de place voulez-vous?</h2>
     <h3> Place disponible: {{competition['numberOfPlaces']}}</h3>
+
     <form action="/purchasePlaces" method="post">
       <div class="user-box">
         <input type="hidden" name="club" value="{{club['name']}}">
         <input type="hidden" name="competition" value="{{competition['name']}}">
         <label for="places"></label>
-        <input type="number" name="places" id=""/>
+        <input type="number"  name="places" id=""/>
       </div>
       <a href="#">
         <span></span>
