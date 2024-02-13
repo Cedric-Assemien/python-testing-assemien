@@ -26,9 +26,7 @@ clubs = loadClubs()
 
 @app.route('/',)
 def index():
-    competition = [c['name'] for c in competitions]
-     
-    return render_template('index.html', competitions=competition)
+    return render_template('index.html', competitions=competitions)
     
 
 @app.route('/showSummary',methods=['POST'])
